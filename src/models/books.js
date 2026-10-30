@@ -8,4 +8,12 @@ const getAllBooks = async () => {
     return books;
 };
 
-export { getAllBooks };
+// Get a single book by its ID
+const getBookById = async (bookId) => {
+    const db = getDb();
+    const collection = db.collection('books');
+    const book = await collection.findOne({ id: bookId });
+    return book;
+};
+
+export { getAllBooks, getBookById };
