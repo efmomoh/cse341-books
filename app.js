@@ -1,12 +1,17 @@
 // Import Express
 import express from 'express';
 import router from './src/router.js';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './swagger.json' with { type: 'json' };
 
 // create an instance of express
 const app = express();
 
 // add a JSON request body middleware with express.json() to parse incoming JSON requests
 app.use(express.json());
+
+// Add a route for serving the Swagger UI documentation at /api-docs
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Use the router for handling routes
 app.use(router);
