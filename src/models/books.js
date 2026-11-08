@@ -8,7 +8,7 @@ const getAllBooks = async () => {
     return books;
 };
 
-// Get a single book by its ID
+// Get a single book by its Custom ID
 const getBookById = async (bookId) => {
     const db = getDb();
     const collection = db.collection('books');
@@ -16,4 +16,45 @@ const getBookById = async (bookId) => {
     return book;
 };
 
-export { getAllBooks, getBookById };
+// Create a new book
+const createBook = async (book) => {
+    const db = getDb();
+    const collection = db.collection('books');
+
+    await collection.insertOne(book);
+
+    return book;
+};
+
+// Update an existing book
+const updateBook = async (bookId, bookData) => {
+    const db = getDb();
+    const collection = db.collection('books');
+
+    const result = await collection.findOneAndUpdate(
+        { id: bookId },
+        { $set: bookData },
+        { returnDocument: 'after' }
+    );
+
+    return result;
+};
+
+// Delete an existing book
+const deleteBook = async (bookId) => {
+    const db = getDb();
+    const collection = db.collection('books');
+
+    const result = await collection.deleteOne({ id: bookId });
+
+    return result.deletedCount > 0;
+};
+
+// Export the functions for use in controller and other modules
+export {
+    getAllBooks,
+    getBookById,
+    createBook,
+    updateBook,
+    deleteBook
+};

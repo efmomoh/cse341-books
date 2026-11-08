@@ -5,9 +5,9 @@ const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'Books API',
-            version: '1.0.0',
-            description: 'A simple API for working with books'
+            title: 'Books and Author API',
+            version: '2.0.0',
+            description: 'Rest API for managing books and authors. This API allows you to perform CRUD operations on books and authors, including creating, reading, updating, and deleting records. It also provides endpoints to retrieve all books or authors, as well as specific records by their unique identifiers.'
         },
         servers: [
             {
