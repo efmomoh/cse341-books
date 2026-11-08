@@ -63,8 +63,8 @@ const getAuthorByIdHandler = async (req, res) => {
 
 // Create an author: POST /authors
 const createAuthorHandler = async (req, res) => {
-    // Extract author data from the request body
-    const { id, name, birthYear } = req.body;
+    // Destructure the request body to get the author details
+    const { id, name, birthYear } = req.body || {};
 
     // Validate input
     if (
@@ -117,7 +117,7 @@ const createAuthorHandler = async (req, res) => {
 
 // Update an author: PUT /authors/:id
 const updateAuthorHandler = async (req, res) => {
-    const { name, birthYear } = req.body;
+    const { name, birthYear } = req.body || {};
 
     // Validate input
     if (!validateAuthor(name, birthYear)) {
@@ -188,7 +188,13 @@ const deleteAuthorHandler = async (req, res) => {
         }
 
         // Delete the author
-        await deleteAuthor(authorId);
+        const result = await deleteAuthor(authorId);
+        
+        if (result.deletedCount === 0) {
+            return res.status(404).json({
+                message: 'Author not found.'
+            });
+        }
 
         // Return a 204 No Content response to indicate successful deletion
         return res.status(204).send();
